@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
 import { Map, ZoomIn, ZoomOut, Layers, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const HazardMap = ({ viewOnly = false }) => {
   const [selectedLayer, setSelectedLayer] = useState('hazards');
@@ -25,8 +28,8 @@ const HazardMap = ({ viewOnly = false }) => {
       </div>
 
       <div className="mb-4 flex justify-between items-center">
-        <div className="flex space-x-2">
-          <button
+         <div className="flex space-x-2">
+           <button
             onClick={() => setSelectedLayer('hazards')}
             className={`px-3 py-1 text-sm rounded ${selectedLayer === 'hazards' ? 'text-white' : ''}`}
             style={{ 
@@ -35,7 +38,7 @@ const HazardMap = ({ viewOnly = false }) => {
             }}
           >
             Hazards
-          </button>
+          </button> 
           <button
             onClick={() => setSelectedLayer('density')}
             className={`px-3 py-1 text-sm rounded ${selectedLayer === 'density' ? 'text-white' : ''}`}
@@ -61,7 +64,7 @@ const HazardMap = ({ viewOnly = false }) => {
           >
             <ZoomOut className="h-4 w-4" style={{ color: '#73628A' }} />
           </button>
-        </div>
+        </div> 
       </div>
 
       {/* Mock Map Display */}
@@ -79,7 +82,7 @@ const HazardMap = ({ viewOnly = false }) => {
           </p>
         </div>
 
-        {/* Mock hazard markers */}
+        Mock hazard markers 
         <div className="absolute top-4 left-4 space-y-2">
           {mockHazards.map(hazard => (
             <div 
@@ -99,7 +102,23 @@ const HazardMap = ({ viewOnly = false }) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> 
+
+      {/* <MapContainer center={[20, 0]} zoom={2} style={{ height: '500px', width: '100%' }}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            {locations.map((loc, index) => (
+              <Marker key={index} position={[loc.lat, loc.lng]} icon={redIcon}>
+                <Popup>
+                  <b>{loc.username}</b><br />
+                  Lat: {loc.lat.toFixed(5)}<br />
+                  Lng: {loc.lng.toFixed(5)}
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer> */}
 
       <div className="mt-4 flex items-center text-sm" style={{ color: '#73628A' }}>
         <Info className="h-4 w-4 mr-2" />

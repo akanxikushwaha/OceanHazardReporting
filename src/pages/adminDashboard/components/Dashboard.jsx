@@ -48,7 +48,7 @@ const Dashboard = () => {
     {
       id: 1,
       type: 'High Priority Report',
-      location: 'Santa Monica, CA',
+      location: 'Odisha, India',
       time: '2 minutes ago',
       status: 'urgent',
       description: 'Tsunami warning reported by multiple users'
@@ -56,7 +56,7 @@ const Dashboard = () => {
     {
       id: 2,
       type: 'Report Verified',
-      location: 'Miami, FL',
+      location: 'West Bengal, India',
       time: '15 minutes ago',
       status: 'verified',
       description: 'Rip current warning confirmed by authorities'
@@ -64,7 +64,7 @@ const Dashboard = () => {
     {
       id: 3,
       type: 'New Report',
-      location: 'Portland, OR',
+      location: 'Odisha, India',
       time: '32 minutes ago',
       status: 'pending',
       description: 'Unusual wave patterns observed'
@@ -72,7 +72,7 @@ const Dashboard = () => {
     {
       id: 4,
       type: 'Alert Sent',
-      location: 'San Diego, CA',
+      location: 'Andhra, Pradesh',
       time: '1 hour ago',
       status: 'completed',
       description: 'Emergency alert dispatched to local authorities'

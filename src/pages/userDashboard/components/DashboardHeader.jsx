@@ -1,14 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Waves, User, Bell, Settings, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../homePage/signUp/supabaseClient';
 
 const DashboardHeader = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Get current session on mount
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+    });
+
+    // Listen for changes (login/logout)
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = "/"; // redirect to login
   };
+
+   if (!user) {
+    return <p>Loading user info...</p>;
+  }
 
   return (
     <header className="bg-white border-b border-ocean-100">
@@ -37,7 +58,7 @@ const DashboardHeader = () => {
               <div className="h-8 w-8 bg-ocean-100 rounded-full flex items-center justify-center">
                 <User className="h-4 w-4 text-ocean-600" />
               </div>
-              <span className="text-ocean-800 font-medium">John Doe</span>
+              <span className="text-ocean-800 font-medium">{user.user_metadata.display_name}</span>
             </div>
             <button 
               onClick={handleLogout} 

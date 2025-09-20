@@ -92,6 +92,7 @@ const handleSubmit = async (e) => {
       description: reportData.description,
       image_url: reportData.image_url || null,  // ✅ Correct column
       isverified: null,
+      severity: null,
     },
   ]);
 
