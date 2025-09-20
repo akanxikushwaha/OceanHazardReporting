@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Statistics from './components/Statistics';
-import ActiveAlerts from './components/ActiveAlerts';
 import NewsHeadlines from './components/NewsHeadlines';
 import Features from './components/Features';
 import Footer from './components/Footer';
@@ -13,7 +12,6 @@ const HomePage = () => {
       <Header />
       <Hero />
       <Statistics />
-      <ActiveAlerts />
       <NewsHeadlines />
       <Features />
       <Footer />

@@ -47,7 +47,7 @@ const Hero = () => {
               <div className="text-3xl font-bold">156</div>
               <div className="text-ocean-100">Lives Saved</div>
             </div>
-          </div>
+          </div> 
         </div>
       </div>
     </section>

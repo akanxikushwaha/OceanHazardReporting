@@ -20,9 +20,6 @@ const AdminHeader = () => {
               <span className="text-2xl font-bold text-ocean-800">OceanGuard</span>
             </Link>
             <div className="hidden md:flex items-center space-x-2">
-              <span className="text-ocean-400">|</span>
-              <Shield className="h-5 w-5 text-ocean-600 ml-4" />
-              <span className="text-ocean-600 font-medium">Admin Dashboard</span>
             </div>
           </div>
 

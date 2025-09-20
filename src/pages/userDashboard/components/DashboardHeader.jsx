@@ -20,8 +20,6 @@ const DashboardHeader = () => {
               <span className="text-2xl font-bold text-ocean-800">OceanGuard</span>
             </Link>
             <div className="hidden md:block">
-              <span className="text-ocean-400">|</span>
-              <span className="ml-4 text-ocean-600 font-medium">User Dashboard</span>
             </div>
           </div>
 
