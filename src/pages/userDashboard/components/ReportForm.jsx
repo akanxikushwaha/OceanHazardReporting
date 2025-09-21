@@ -7,6 +7,7 @@ const ReportForm = () => {
   const canvasRef = useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState("");
 
 
   const [reportData, setReportData] = useState({
@@ -39,6 +40,7 @@ const ReportForm = () => {
     if (!file) return;
 
     console.log("Uploading file:", file);
+    setMessage(`Uploading file: ${file.name}`);
 
     // const fileName = `${Date.now()}_${file.name}`;
     const fileName = `${Date.now()}_${file.name.replace(/\s/g, "_")}`;
@@ -64,8 +66,8 @@ const ReportForm = () => {
       image_url: publicUrlData.publicUrl,
     }));
     
-
     console.log("Uploaded successfully:", publicUrlData.publicUrl);
+    setMessage("Uploaded Successfully");
   };
 
   input.click();
@@ -216,6 +218,7 @@ const handleSubmit = async (e) => {
           <label className="block text-sm font-medium mb-2" style={{ color: '#313D5A' }}>
             Upload Image
           </label>
+          <p className="text-sm" style={{ color: '#257828ff' }}>{message}</p>
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
