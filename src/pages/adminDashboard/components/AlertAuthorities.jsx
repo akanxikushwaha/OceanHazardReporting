@@ -19,23 +19,23 @@ const AlertAuthorities = () => {
   const emergencyContacts = [
     {
       id: 1,
-      name: 'Santa Monica Emergency Services',
-      organization: 'Santa Monica Fire Department',
-      location: 'Santa Monica, CA',
-      phone: '+1 (310) 458-8491',
-      email: 'emergency@santamonica.gov',
-      type: 'Fire Department',
+      name: 'INCOIS',
+      organization: 'Government of India',
+      location: 'India',
+      phone: '+91-40-23886031',
+      email: 'cpio@incois.gov.in',
+      type: 'Hazard Alert Department',
       responseTime: '3-5 mins',
       available24h: true,
       lastContact: '2025-01-08 14:30'
     },
     {
       id: 2,
-      name: 'Miami-Dade Emergency Management',
-      organization: 'Miami-Dade County',
-      location: 'Miami, FL',
-      phone: '+1 (305) 468-5400',
-      email: 'eoc@miamidade.gov',
+      name: 'Central Public Information Officer (CPIO) ',
+      organization: 'Scientist-F & Division Head, OOS',
+      location: 'India',
+      phone: '+91-40-23886000',
+      email: 'webmaster@incois.gov.in',
       type: 'Emergency Management',
       responseTime: '5-10 mins',
       available24h: true,
@@ -43,11 +43,11 @@ const AlertAuthorities = () => {
     },
     {
       id: 3,
-      name: 'US Coast Guard Station',
-      organization: 'United States Coast Guard',
-      location: 'Monterey, CA',
-      phone: '+1 (831) 647-7300',
-      email: 'monterey@uscg.mil',
+      name: 'India Tsunami Early Warning Centre',
+      organization: 'Government of India',
+      location: 'India',
+      phone: '+91-40-23886000',
+      email: 'its2025@incois.gov.in',
       type: 'Coast Guard',
       responseTime: '10-15 mins',
       available24h: true,
@@ -55,28 +55,28 @@ const AlertAuthorities = () => {
     },
     {
       id: 4,
-      name: 'Galveston Emergency Operations',
-      organization: 'City of Galveston',
-      location: 'Galveston, TX',
-      phone: '+1 (409) 797-3510',
-      email: 'eoc@galvestontx.gov',
+      name: 'SACHET - National Disaster Alert Portal',
+      organization: 'Government of India',
+      location: 'India',
+      phone: '+91-11-26701728',
+      email: 'controlroom@ndma.gov.in',
       type: 'Emergency Operations',
       responseTime: '5-8 mins',
       available24h: true,
       lastContact: '2025-01-10 11:20'
     },
-    {
-      id: 5,
-      name: 'Oregon State Police',
-      organization: 'Marine Board Division',
-      location: 'Portland, OR',
-      phone: '+1 (503) 378-8587',
-      email: 'marine.board@oregon.gov',
-      type: 'Marine Police',
-      responseTime: '15-20 mins',
-      available24h: false,
-      lastContact: '2025-01-06 13:00'
-    }
+    // {
+    //   id: 5,
+    //   name: 'Oregon State Police',
+    //   organization: 'Marine Board Division',
+    //   location: 'Portland, OR',
+    //   phone: '+1 (503) 378-8587',
+    //   email: 'marine.board@oregon.gov',
+    //   type: 'Marine Police',
+    //   responseTime: '15-20 mins',
+    //   available24h: false,
+    //   lastContact: '2025-01-06 13:00'
+    // }
   ];
 
   const getTypeColor = (type) => {
@@ -85,7 +85,7 @@ const AlertAuthorities = () => {
       case 'Emergency Management': return '#313D5A';
       case 'Coast Guard': return '#73628A';
       case 'Emergency Operations': return '#73628A';
-      case 'Marine Police': return '#313D5A';
+      case 'Hazard Alert Department': return '#313D5A';
       default: return '#EAEAEA';
     }
   };
@@ -123,7 +123,7 @@ const AlertAuthorities = () => {
         >
           <Plus size={16} className="mr-2" />
           Add Contact
-        </button>
+        </button> 
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

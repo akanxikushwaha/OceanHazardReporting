@@ -90,7 +90,7 @@ const SocialMediaAnalytics = () => {
       </div>
 
       {/* Time Range Selector */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <div className="flex space-x-2">
           {['24h', '7d', '30d', '90d'].map((range) => (
             <button
@@ -110,7 +110,7 @@ const SocialMediaAnalytics = () => {
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Analytics Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -260,7 +260,7 @@ const SocialMediaAnalytics = () => {
           </div>
 
           {/* Sentiment Distribution */}
-          <div className="bg-white rounded-lg shadow-md">
+          {/* <div className="bg-white rounded-lg shadow-md">
             <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
               <h2 className="text-xl font-bold" style={{ color: '#313D5A' }}>Sentiment Distribution</h2>
             </div>
@@ -298,7 +298,7 @@ const SocialMediaAnalytics = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

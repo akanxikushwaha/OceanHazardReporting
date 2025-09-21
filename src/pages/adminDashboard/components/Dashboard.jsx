@@ -28,7 +28,7 @@ const Dashboard = () => {
     },
     {
       title: 'Most Affected State',
-      value: 'California',
+      value: 'Odisha',
       change: '156 reports',
       trend: 'neutral',
       icon: MapPin,
