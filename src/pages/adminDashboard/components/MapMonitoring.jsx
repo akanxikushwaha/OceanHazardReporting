@@ -8,6 +8,7 @@ import {
   ZoomOut,
   RotateCcw
 } from 'lucide-react';
+import HazardMap from '../../userDashboard/components/HazardMap';
 
 const MapMonitoring = () => {
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -143,39 +144,7 @@ const MapMonitoring = () => {
         <div className="lg:col-span-3">
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             {/* Mock Map Interface */}
-            <div 
-              className="relative h-96 flex items-center justify-center"
-              style={{ backgroundColor: '#EAEAEA' }}
-            >
-              <div className="text-center">
-                <MapIcon size={64} className="mx-auto mb-4" style={{ color: '#313D5A' }} />
-                <p className="text-lg font-semibold" style={{ color: '#313D5A' }}>Interactive Map View</p>
-                <p className="text-sm text-gray-600">Report density and urgency visualization</p>
-              </div>
-
-              {/* Simulated Map Markers */}
-              <div className="absolute top-20 left-20">
-                <div 
-                  className="w-6 h-6 rounded-full border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
-                  style={{ backgroundColor: '#183642' }}
-                  onClick={() => setSelectedRegion(regions[0])}
-                ></div>
-              </div>
-              <div className="absolute bottom-20 right-32">
-                <div 
-                  className="w-4 h-4 rounded-full border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
-                  style={{ backgroundColor: '#73628A' }}
-                  onClick={() => setSelectedRegion(regions[1])}
-                ></div>
-              </div>
-              <div className="absolute top-32 right-20">
-                <div 
-                  className="w-3 h-3 rounded-full border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
-                  style={{ backgroundColor: '#CBC5EA' }}
-                  onClick={() => setSelectedRegion(regions[2])}
-                ></div>
-              </div>
-            </div>
+            <HazardMap/>
 
             {/* Selected Region Info */}
             {selectedRegion && (
@@ -209,7 +178,7 @@ const MapMonitoring = () => {
           </div>
 
           {/* Region Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             {regions.map((region) => (
               <div 
                 key={region.id}
@@ -229,7 +198,7 @@ const MapMonitoring = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
