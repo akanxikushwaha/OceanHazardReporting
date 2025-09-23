@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../homePage/signUp/supabaseClient';
+import { X } from "lucide-react"; // close icon
+
 import { 
   TrendingUp, 
   MessageSquare, 
@@ -12,6 +15,31 @@ import {
 
 const SocialMediaAnalytics = () => {
   const [timeRange, setTimeRange] = useState('7d');
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  
+  useEffect(() => {
+    const fetchImages = () => {
+      const files = [
+        "likes_vs_retweets.png",
+        "replies_distribution.png",
+        "severity_distribution.png",
+        "top10_tweets_by_engagement.png",
+        "tweets_over_time.png",
+      ];
+
+      const urls = files.map((file) => {
+        const { data } = supabase.storage
+          .from("ReportImages")
+          .getPublicUrl(`analyticsGraphs/${file}`);
+        return { name: file, url: data.publicUrl };
+      });
+
+      setImages(urls);
+    };
+
+    fetchImages();
+  }, []);
 
   const analytics = {
     totalPosts: 2847,
@@ -113,7 +141,7 @@ const SocialMediaAnalytics = () => {
       </div> */}
 
       {/* Analytics Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-lg p-6 shadow-md">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 rounded-lg" style={{ backgroundColor: '#73628A20' }}>
@@ -168,7 +196,7 @@ const SocialMediaAnalytics = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Hazard Posts */}
+        {/* Recent Hazard Posts 
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-md">
             <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
@@ -235,7 +263,7 @@ const SocialMediaAnalytics = () => {
           </div>
         </div>
 
-        {/* Trending Hashtags */}
+        {/* Trending Hashtags 
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md mb-6">
             <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
@@ -257,7 +285,47 @@ const SocialMediaAnalytics = () => {
                 ))}
               </div>
             </div>
+          </div> */}
+
+          <div className="p-6">
+      <h2 className="text-xl font-bold mb-4 text-center" style={{ color: '#313D5A' }}>
+        Analytics Graphs
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {images.map((img) => (
+          <div
+            key={img.name}
+            className="bg-white shadow-md rounded-2xl overflow-hidden hover:scale-105 transition-transform"
+            onClick={() => setSelectedImage(img)}
+          >
+            <img
+              src={img.url}
+              alt={img.name}
+              className="w-full h-64 object-contain bg-gray-50"
+            />
+            <div className="p-2 text-center text-sm text-gray-600">
+              {img.name.replace(".png", "").replace(/_/g, " ")}
+            </div>
           </div>
+        ))}
+      </div>
+    </div>
+          {/* Fullscreen Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <button
+            className="absolute top-6 right-6 text-white text-3xl"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X size={32} />
+          </button>
+          <img
+            src={selectedImage.url}
+            alt={selectedImage.name}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
+          />
+        </div>
+      )}
 
           {/* Sentiment Distribution */}
           {/* <div className="bg-white rounded-lg shadow-md">
@@ -300,8 +368,8 @@ const SocialMediaAnalytics = () => {
             </div>
           </div> */}
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 };
 

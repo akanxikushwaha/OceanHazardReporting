@@ -12,16 +12,16 @@ const Dashboard = () => {
   const stats = [
     {
       title: 'Verified Reports',
-      value: '1,247',
-      change: '+12%',
+      value: '1',
+      change: '',
       trend: 'up',
       icon: CheckCircle,
       color: '#73628A'
     },
     {
       title: 'Active Alerts',
-      value: '23',
-      change: '-8%',
+      value: '0',
+      change: '',
       trend: 'down',
       icon: AlertTriangle,
       color: '#313D5A'
@@ -29,15 +29,15 @@ const Dashboard = () => {
     {
       title: 'Most Affected State',
       value: 'Odisha',
-      change: '156 reports',
+      change: '',
       trend: 'neutral',
       icon: MapPin,
       color: '#183642'
     },
     {
       title: 'Active Users',
-      value: '8,492',
-      change: '+24%',
+      value: '3',
+      change: '',
       trend: 'up',
       icon: Users,
       color: '#73628A'
