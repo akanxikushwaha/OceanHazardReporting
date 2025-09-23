@@ -114,7 +114,7 @@ const SocialMediaAnalytics = () => {
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold" style={{ color: '#313D5A' }}>Social Media Analytics</h1>
-        <p className="text-gray-600 mt-2">Monitor hazard-related social media activity and public sentiment</p>
+        <p className="text-gray-600 mt-2">Monitor Twitter activity and public engagement on Hazard related posts.</p>
       </div>
 
       {/* Time Range Selector */}
@@ -261,31 +261,9 @@ const SocialMediaAnalytics = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>*/}
 
-        {/* Trending Hashtags 
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-md mb-6">
-            <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
-              <h2 className="text-xl font-bold" style={{ color: '#313D5A' }}>
-                <Hash size={20} className="inline mr-2" />
-                Trending Hashtags
-              </h2>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {trendingHashtags.map((hashtag, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold" style={{ color: '#313D5A' }}>{hashtag.tag}</p>
-                      <p className="text-sm text-gray-600">{hashtag.count.toLocaleString()} posts</p>
-                    </div>
-                    <span className="text-xs text-green-600 font-medium">{hashtag.change}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
+        
 
           <div className="p-6">
       <h2 className="text-xl font-bold mb-4 text-center" style={{ color: '#313D5A' }}>
@@ -367,8 +345,35 @@ const SocialMediaAnalytics = () => {
               </div>
             </div>
           </div> */}
+
+            {/* Trending Hashtags */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-lg shadow-md mb-6">
+            <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
+              <h2 className="text-xl font-bold" style={{ color: '#313D5A' }}>
+                <Hash size={20} className="inline mr-2" />
+                Trending Hashtags
+              </h2>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {trendingHashtags.map((hashtag, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold" style={{ color: '#313D5A' }}>{hashtag.tag}</p>
+                      <p className="text-sm text-gray-600">{hashtag.count.toLocaleString()} posts</p>
+                    </div>
+                    <span className="text-xs text-green-600 font-medium">{hashtag.change}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div> 
+          
+
+
         </div>
-    //   </div>
+       </div>
     // </div>
   );
 };

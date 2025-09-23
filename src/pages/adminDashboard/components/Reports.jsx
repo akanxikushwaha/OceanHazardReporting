@@ -222,7 +222,7 @@ const Reports = () => {
                 <th className="px-6 py-4 text-left font-semibold text-[#313D5A]">Date & Time</th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {filteredReports.map((report, index) => (
                 <tr 
                   key={report.id} 
@@ -262,7 +262,64 @@ const Reports = () => {
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </tbody> */}
+            <tbody>
+  {filteredReports.map((report, index) => (
+    <tr 
+      key={report.id} 
+      className={`border-b hover:bg-gray-50 transition-colors ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+    >
+      <td className="px-6 py-4">
+        <div>
+          <h4 className="font-semibold text-[#313D5A]">{report.title}</h4>
+          <p className="text-sm text-gray-600 mt-1">{report.description}</p>
+        </div>
+      </td>
+      
+      <td className="px-6 py-4">
+        <div className="flex items-center text-gray-700">
+          <MapPin size={16} className="mr-2" />
+          {report.location}
+        </div>
+      </td>
+      
+      <td className="px-6 py-4">
+        <div className="flex items-center">
+          {getStatusIcon(report.status)}
+          <span className="ml-2 capitalize text-sm">{report.status}</span>
+        </div>
+      </td>
+      
+      <td className="px-6 py-4">
+        <div className="flex items-center">
+          <div
+            className="w-3 h-3 rounded-full mr-2"
+            style={{ backgroundColor: getUrgencyColor(report.urgencyLevel) }}
+          ></div>
+          <span className="capitalize text-sm">{report.urgencyLevel}</span>
+        </div>
+      </td>
+      
+      <td className="px-6 py-4 text-gray-700">
+        <span className="capitalize text-sm">{report.reporter}</span>
+      </td>
+      
+      <td className="px-6 py-4">
+        <div className="text-sm">
+          <div className="flex items-center text-gray-700">
+            <Calendar size={14} className="mr-1" />
+            <span className="capitalize text-sm">{report.date}</span>
+          </div>
+          <div className="flex items-center text-gray-500 mt-1">
+            <Clock size={14} className="mr-1" />
+            <span className="capitalize text-sm">{report.time}</span>
+          </div>
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         </div>
       </div>
