@@ -239,7 +239,7 @@ const handleSubmit = async (e) => {
               <span className="text-xs" style={{ color: '#313D5A' }}>Browse</span>
             </button>
             
-            <button
+             <button
               type="button"
               onClick={() => handleImageUpload('drive')}
               className="p-4 border-2 border-dashed rounded-lg hover:bg-gray-50 transition-colors"
@@ -247,7 +247,7 @@ const handleSubmit = async (e) => {
             >
               <Cloud className="h-6 w-6 mx-auto mb-2" style={{ color: '#73628A' }} />
               <span className="text-xs" style={{ color: '#313D5A' }}>Drive</span>
-            </button>
+            </button> 
           </div>
         </div>
 

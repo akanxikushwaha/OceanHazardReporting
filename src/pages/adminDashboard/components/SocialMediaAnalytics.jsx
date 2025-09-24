@@ -116,6 +116,45 @@ const SocialMediaAnalytics = () => {
         <h1 className="text-3xl font-bold" style={{ color: '#313D5A' }}>Social Media Analytics</h1>
         <p className="text-gray-600 mt-2">Monitor Twitter activity and public engagement on Hazard related posts.</p>
       </div>
+      <div className="p-6">
+      <h2 className="text-xl font-bold mb-4 text-center" style={{ color: '#313D5A' }}>
+        Analytics Graphs
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {images.map((img) => (
+          <div
+            key={img.name}
+            className="bg-white shadow-md rounded-2xl overflow-hidden hover:scale-105 transition-transform"
+            onClick={() => setSelectedImage(img)}
+          >
+            <img
+              src={img.url}
+              alt={img.name}
+              className="w-full h-64 object-contain bg-gray-50"
+            />
+            <div className="p-2 text-center text-sm text-gray-600">
+              {img.name.replace(".png", "").replace(/_/g, " ")}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+          {/* Fullscreen Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <button
+            className="absolute top-6 right-6 text-white text-3xl"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X size={32} />
+          </button>
+          <img
+            src={selectedImage.url}
+            alt={selectedImage.name}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
+          />
+        </div>
+      )}
 
       {/* Time Range Selector */}
       {/* <div className="mb-6">
@@ -196,7 +235,7 @@ const SocialMediaAnalytics = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Hazard Posts 
+        {/* Recent Hazard Posts */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-md">
             <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
@@ -261,49 +300,11 @@ const SocialMediaAnalytics = () => {
               </div>
             </div>
           </div>
-        </div>*/}
+        </div>
 
         
 
-          <div className="p-6">
-      <h2 className="text-xl font-bold mb-4 text-center" style={{ color: '#313D5A' }}>
-        Analytics Graphs
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {images.map((img) => (
-          <div
-            key={img.name}
-            className="bg-white shadow-md rounded-2xl overflow-hidden hover:scale-105 transition-transform"
-            onClick={() => setSelectedImage(img)}
-          >
-            <img
-              src={img.url}
-              alt={img.name}
-              className="w-full h-64 object-contain bg-gray-50"
-            />
-            <div className="p-2 text-center text-sm text-gray-600">
-              {img.name.replace(".png", "").replace(/_/g, " ")}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-          {/* Fullscreen Modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-          <button
-            className="absolute top-6 right-6 text-white text-3xl"
-            onClick={() => setSelectedImage(null)}
-          >
-            <X size={32} />
-          </button>
-          <img
-            src={selectedImage.url}
-            alt={selectedImage.name}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
-          />
-        </div>
-      )}
+          
 
           {/* Sentiment Distribution */}
           {/* <div className="bg-white rounded-lg shadow-md">
@@ -346,7 +347,7 @@ const SocialMediaAnalytics = () => {
             </div>
           </div> */}
 
-            {/* Trending Hashtags */}
+            {/* Trending Hashtags 
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md mb-6">
             <div className="p-6 border-b" style={{ borderColor: '#EAEAEA' }}>
@@ -372,7 +373,7 @@ const SocialMediaAnalytics = () => {
           
 
 
-        </div>
+        </div>*/}
        </div>
     // </div>
   );
