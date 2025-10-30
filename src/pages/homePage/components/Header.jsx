@@ -20,7 +20,7 @@ const Header = () => {
       email,
       password,
       options: {
-        emailRedirectTo: "http://localhost:5173", // after email verification redirect
+        emailRedirectTo: "https://ocean-hazard-reporting-ibkoqs2lk-akanxis-projects.vercel.app/", // after email verification redirect
         data: {
         display_name: displayName,  // 👈 will show up in "Display Name"
       },
