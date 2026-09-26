@@ -2,22 +2,19 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../homePage/signUp/supabaseClient"; 
 import { Calendar, MapPin, Eye } from "lucide-react";
 
-const ReportsHistory = () => {
+const ReportsHistory = ({ userId }) => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        // 1. Get current logged-in user
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
-        if (userError) throw userError;
+        if (!userId) throw new Error("No authenticated user");
 
-        // 2. Fetch only their reports
         const { data, error } = await supabase
           .from("reports")
           .select("*")
-          .eq("user_id", user.id)
+          .eq("user_id", userId)
           .order("created_at", { ascending: false });
 
         if (error) throw error;
@@ -31,7 +28,7 @@ const ReportsHistory = () => {
     };
 
     fetchReports();
-  }, []);
+  }, [userId]);
 
   const getSeverityColor = (severity) => {
     switch (severity) {

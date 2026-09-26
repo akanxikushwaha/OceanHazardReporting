@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../homePage/signUp/supabaseClient"; // adjust path
 import { FileText, CheckCircle, AlertTriangle, Clock } from "lucide-react";
 
-const QuickStats = () => {
+const QuickStats = ({ userId }) => {
   const [stats, setStats] = useState({
     totalReports: 0,
     verifiedReports: 0,
@@ -14,15 +14,13 @@ const QuickStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Get logged-in user
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
-        if (userError) throw userError;
+        if (!userId) throw new Error("No authenticated user");
 
         // Fetch all reports by user
         const { data, error } = await supabase
           .from("reports")
-          .select("*")
-          .eq("user_id", user.id);
+          .select("created_at, isverified, severity")
+          .eq("user_id", userId);
 
         if (error) throw error;
 
@@ -55,7 +53,7 @@ const QuickStats = () => {
     };
 
     fetchStats();
-  }, []);
+  }, [userId]);
 
   const getTimeSince = (date) => {
     const now = new Date();

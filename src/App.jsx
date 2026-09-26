@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/homePage/HomePage';
 import UserDashboard from './pages/userDashboard/UserDashboard';
@@ -11,39 +11,54 @@ function App() {
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const clearAuthState = useCallback(() => {
+    setSession(null);
+    setRole(null);
+    setLoading(false);
+  }, []);
+
   // ---------------- Fetch user role ----------------
-  const fetchUserRole = async (userId, isMounted = true) => {
-    console.log("🔍 Fetching role for userId:", userId);
+  const fetchUserRole = useCallback(async (userId) => {
+    if (!userId) {
+      setRole(null);
+      setLoading(false);
+      return;
+    }
+
+    console.log('🔍 Fetching role for userId:', userId);
 
     try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", userId)
+      const roleRequest = supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', userId)
         .maybeSingle();
 
-      if (!isMounted) return;
+      const { data, error } = await Promise.race([
+        roleRequest,
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Profile lookup timed out')), 10000);
+        }),
+      ]);
 
       if (error) {
-        console.error("❌ Error fetching role:", error);
+        console.error('❌ Error fetching role:', error);
         setRole(null);
       } else if (data) {
-        console.log("✅ Role found:", data.role);
+        console.log('✅ Role found:', data.role);
         setRole(data.role);
       } else {
-        console.warn("⚠️ No role found for user:", userId);
+        console.warn('⚠️ No role found for user:', userId);
         setRole(null);
       }
     } catch (err) {
-      console.error("🔥 Exception while fetching role:", err);
-      if (isMounted) setRole(null);
+      console.error('🔥 Exception while fetching role:', err);
+      setRole(null);
     } finally {
-      if (isMounted) {
-        console.log("🏁 fetchUserRole finished");
-        setLoading(false);
-      }
+      console.log('🏁 fetchUserRole finished');
+      setLoading(false);
     }
-  };
+  }, []);
 
   // ---------------- Session + listener ----------------
   useEffect(() => {
@@ -52,40 +67,41 @@ function App() {
     const getSessionAndRole = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) console.error("❌ Error getting session:", error);
 
         if (!isMounted) return;
-        setSession(session);
 
-        if (session?.user) {
-          await fetchUserRole(session.user.id, isMounted);
-        } else {
-          if (isMounted) {
-            setRole(null);
-            setLoading(false);
-          }
+        if (error) {
+          console.error('❌ Error getting session:', error);
+          clearAuthState();
+          return;
         }
+
+        if (!session?.user) {
+          clearAuthState();
+          return;
+        }
+
+        setSession(session);
+        await fetchUserRole(session.user.id);
       } catch (err) {
-        console.error("🔥 Exception in getSessionAndRole:", err);
-        if (isMounted) setLoading(false);
+        console.error('🔥 Exception in getSessionAndRole:', err);
+        if (isMounted) clearAuthState();
       }
     };
 
     getSessionAndRole();
 
-    // ✅ Correct subscription cleanup
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (_event, nextSession) => {
         if (!isMounted) return;
 
-        setSession(session);
-
-        if (session?.user) {
-          await fetchUserRole(session.user.id, isMounted);
-        } else {
-          setRole(null);
-          setLoading(false);
+        if (!nextSession?.user) {
+          clearAuthState();
+          return;
         }
+
+        setSession(nextSession);
+        await fetchUserRole(nextSession.user.id);
       }
     );
 
@@ -93,10 +109,7 @@ function App() {
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, []);
-
-  // ---------------- Loading UI ----------------
-   if (loading) return <p>Loading...</p>;
+  }, [clearAuthState, fetchUserRole]);
 
   // ---------------- Routes ----------------
   return (
@@ -110,8 +123,8 @@ function App() {
           <Route
             path="/UserDashboard"
             element={
-              <ProtectedRoute session={session} role={role} requiredRole="user">
-                <UserDashboard />
+              <ProtectedRoute loading={loading} session={session} role={role} requiredRole="user">
+                <UserDashboard userId={session?.user?.id} session={session} />
               </ProtectedRoute>
             }
           />
@@ -120,7 +133,7 @@ function App() {
           <Route
             path="/AdminDashboard"
             element={
-              <ProtectedRoute session={session} role={role} requiredRole="admin">
+              <ProtectedRoute loading={loading} session={session} role={role} requiredRole="admin">
                 <AdminDashboard />
               </ProtectedRoute>
             }

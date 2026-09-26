@@ -6,10 +6,10 @@ import QuickStats from './components/QuickStats';
 import HazardMap from './components/HazardMap';
 
 
-const UserDashboard = () => {
+const UserDashboard = ({ userId, session }) => {
   return (
     <div className="min-h-screen bg-ocean-50">
-      <DashboardHeader />
+      <DashboardHeader session={session} />
       <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#EAEAEA' }}>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
@@ -21,14 +21,14 @@ const UserDashboard = () => {
           </p>
         </div>
 
-        <QuickStats />
+        <QuickStats userId={userId} />
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <ReportForm />
           <HazardMap/>
         </div>
         
-        <ReportsHistory />
+        <ReportsHistory userId={userId} />
       </div>
     </div>
     </div>

@@ -1,17 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { Waves, User, Bell, Settings, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../homePage/signUp/supabaseClient';
 
-const DashboardHeader = () => {
-  const [user, setUser] = useState(null);
+const DashboardHeader = ({ session }) => {
+  const [user, setUser] = useState(session?.user ?? null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Get current session on mount
-    supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user ?? null);
-    });
-
     // Listen for changes (login/logout)
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
@@ -23,8 +19,14 @@ const DashboardHeader = () => {
   }, []);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/"; // redirect to login
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error('Error signing out:', error);
+      return;
+    }
+
+    navigate('/');
   };
 
    if (!user) {

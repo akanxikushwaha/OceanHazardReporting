@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Waves, Shield, Bell, Settings, User, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../homePage/signUp/supabaseClient';
 
 const AdminHeader = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get current session on mount
@@ -23,8 +24,14 @@ const AdminHeader = () => {
   }, []);
 
     const handleLogout = async () => {
-      await supabase.auth.signOut();
-      window.location.href = "/"; // redirect to login
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        console.error('Error signing out:', error);
+        return;
+      }
+
+      navigate('/');
     };
 
     if (!user) {
