@@ -12,48 +12,59 @@ const QuickStats = ({ userId }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        if (!userId) throw new Error("No authenticated user");
-
-        // Fetch all reports by user
-        const { data, error } = await supabase
-          .from("reports")
-          .select("created_at, isverified, severity")
-          .eq("user_id", userId);
-
-        if (error) throw error;
-
-        if (data && data.length > 0) {
-          const totalReports = data.length;
-          const verifiedReports = data.filter(r => r.isverified).length;
-          const activeAlerts = data.filter(r => r.severity === "critical").length;
-
-          // Get latest report
-          const latest = data.reduce((latest, report) => {
-            return new Date(report.created_at) > new Date(latest.created_at)
-              ? report
-              : latest;
-          }, data[0]);
-
-          const timeSince = getTimeSince(new Date(latest.created_at));
-
-          setStats({
-            totalReports,
-            verifiedReports,
-            activeAlerts,
-            lastReport: timeSince,
-          });
-        }
-      } catch (err) {
-        console.error("Error fetching stats:", err.message);
-      } finally {
-        setLoading(false);
+  const fetchStats = async () => {
+    try {
+      if (!userId) {
+        throw new Error("No authenticated user");
       }
-    };
 
-    fetchStats();
-  }, [userId]);
+      const { data, error } = await supabase
+        .from("reports")
+        .select("created_at, isverified, severity")
+        .eq("user_id", userId);
+
+      if (error) throw error;
+
+      const reports = data || [];
+
+      const totalReports = reports.length;
+
+      const verifiedReports = reports.filter(
+        (r) => r.isverified
+      ).length;
+
+      const activeAlerts = reports.filter(
+        (r) => r.severity === "critical"
+      ).length;
+
+      let lastReport = null;
+
+      if (reports.length > 0) {
+        const latest = reports.reduce((latest, report) =>
+          new Date(report.created_at) > new Date(latest.created_at)
+            ? report
+            : latest
+        );
+
+        lastReport = getTimeSince(new Date(latest.created_at));
+      }
+
+      setStats({
+        totalReports,
+        verifiedReports,
+        activeAlerts,
+        lastReport,
+      });
+
+    } catch (err) {
+      console.error("Error fetching stats:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchStats();
+}, [userId]);
 
   const getTimeSince = (date) => {
     const now = new Date();
