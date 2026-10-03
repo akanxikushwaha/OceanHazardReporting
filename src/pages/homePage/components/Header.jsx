@@ -20,7 +20,7 @@ const Header = () => {
       email,
       password,
       options: {
-        emailRedirectTo: "https://ocean-hazard-reporting-ibkoqs2lk-akanxis-projects.vercel.app/", // after email verification redirect
+        emailRedirectTo: import.meta.env.VITE_SITE_URL,
         data: {
         display_name: displayName,  // 👈 will show up in "Display Name"
       },
