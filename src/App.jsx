@@ -62,54 +62,72 @@ function App() {
 
   // ---------------- Session + listener ----------------
   useEffect(() => {
-    let isMounted = true;
+  let isMounted = true;
 
-    const getSessionAndRole = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+  const initializeAuth = async () => {
+    try {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
 
-        if (!isMounted) return;
+      if (!isMounted) return;
 
-        if (error) {
-          console.error('❌ Error getting session:', error);
-          clearAuthState();
-          return;
-        }
-
-        if (!session?.user) {
-          clearAuthState();
-          return;
-        }
-
-        setSession(session);
-        await fetchUserRole(session.user.id);
-      } catch (err) {
-        console.error('🔥 Exception in getSessionAndRole:', err);
-        if (isMounted) clearAuthState();
+      if (error) {
+        console.error("❌ Error getting session:", error);
+        clearAuthState();
+        return;
       }
-    };
 
-    getSessionAndRole();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, nextSession) => {
-        if (!isMounted) return;
-
-        if (!nextSession?.user) {
-          clearAuthState();
-          return;
-        }
-
-        setSession(nextSession);
-        await fetchUserRole(nextSession.user.id);
+      if (!session?.user) {
+        clearAuthState();
+        return;
       }
-    );
 
-    return () => {
-      isMounted = false;
-      subscription.unsubscribe();
-    };
-  }, [clearAuthState, fetchUserRole]);
+      console.log("✅ Initial session found:", session.user.id);
+
+      setSession(session);
+
+      await fetchUserRole(session.user.id);
+
+    } catch (err) {
+      console.error("🔥 Exception initializing auth:", err);
+
+      if (isMounted) {
+        clearAuthState();
+      }
+    }
+  };
+
+  initializeAuth();
+
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((event, nextSession) => {
+    if (!isMounted) return;
+
+    console.log("🔐 Auth event:", event);
+
+    if (!nextSession?.user) {
+      clearAuthState();
+      return;
+    }
+
+    setSession(nextSession);
+
+    // Don't await the Supabase query inside onAuthStateChange
+    setTimeout(() => {
+      if (isMounted) {
+        fetchUserRole(nextSession.user.id);
+      }
+    }, 0);
+  });
+
+  return () => {
+    isMounted = false;
+    subscription.unsubscribe();
+  };
+}, [clearAuthState, fetchUserRole]);
 
   // ---------------- Routes ----------------
   return (
