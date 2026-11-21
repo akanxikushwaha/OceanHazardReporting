@@ -7,6 +7,12 @@ import HazardMap from './components/HazardMap';
 
 
 const UserDashboard = ({ userId, session }) => {
+  const displayName =
+    session?.user?.user_metadata?.display_name ||
+    session?.user?.user_metadata?.full_name ||
+    session?.user?.email ||
+    'User';
+
   return (
     <div className="min-h-screen bg-ocean-50">
       <DashboardHeader session={session} />
@@ -14,7 +20,7 @@ const UserDashboard = ({ userId, session }) => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2" style={{ color: '#313D5A' }}>
-            Welcome back, displayName
+            Welcome back, {displayName}
           </h1>
           <p className="text-lg" style={{ color: '#73628A' }}>
             Report ocean hazards and help keep our coastlines safe
